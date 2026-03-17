@@ -38,7 +38,6 @@ graph TD
     API[Backend API]
     RQ[React Query<br/>Server State]
     Hooks[Custom Hooks]
-    Store[Zustand<br/>Client State]
 
     Feed[Vote Feed]
     Detail[Vote Detail]
@@ -50,8 +49,7 @@ graph TD
     Hooks --> Feed
     Hooks --> Detail
     Hooks --> MyVote
-    Hooks --> Write
-    Hooks --> Store
+    Hooks --> ...
 ```
 ---
 ## 1. Problem & Solution
@@ -114,8 +112,11 @@ Chooz에서 다룬 문제는 크게 여섯 가지였습니다.
 각 key가 표현하는 범위를 명확히 정리했습니다.
 
 `['votes']` → 투표 목록 컬렉션
+
 `['votes', voteId]` → 특정 투표 엔티티
+
 `['votes', voteId, 'comments']` → 특정 투표의 하위 리소스
+
 `['userVotes', userId]` → 특정 사용자의 투표 목록
 
 또한 queryKey와 enabled를 분리해 데이터 식별과 실행 조건의 책임을 나눴습니다.
@@ -248,8 +249,6 @@ export const InfiniteScroller = ({
 - 콘텐츠가 늘어날수록 검수 비용과 대응 시간이 함께 증가했음
 - 사용자는 작성 단계가 아니라 삭제 이후에야 문제를 인지했음
 
-사후 검수에 의존하는 운영 구조였습니다.
-
 ---
 
 ### Cause
@@ -285,7 +284,7 @@ shared package"]
 
 구조를 분리한 이유는 3가지였습니다.
 
-- OpenAI API Key를 프론트엔드에 두지 않기 위해
+- OpenAI API Key를 프론트엔드에 두지 않기 위해 (보안)
 - 유해 표현을 판별하는 로직과 UI 로직을 분리하기 위해
 - 해당 도메인에 맞는 정책 로직을 한 곳에서 관리하고 재사용하기 위해
 
